@@ -7,17 +7,12 @@
 *
 */
 
-
 (function($) {
 
 	$.fn.taoco = function( options ) {
 
 
-
-
-
 		// the defaults
-
 		var settings = $.extend( {
 			debug					: false,
 			scope					: 'body',
@@ -27,16 +22,13 @@
 			exclude					: ['.exclude'],
 			highlight				: true,
 			smoothScroll 			: true,
-			smoothScrollDuration	: 1000,
+			smoothScrollDuration	: 500,
+			headingOffset			: 50,
 			addNumbers				: false
 		}, options );
 
 
-
-
-
 		// debug outputs
-
 		if(settings.debug) {
 			console.log('taoco settings');
 			console.log('------------------');
@@ -54,35 +46,26 @@
 		}
 
 
-
-
 		// Set variables
-
 		var el 			= $(this), // Cache this
 			depth 		= null, 	// Keeps track of heading depth
 			line 		= '',		// list item
 			label 		= '', 		// Contains the label of toc element
 			taocoNav 	= '',		// the list
+			counter 	= 0,		// the list
 			allHeadings	= settings.headings.join(', '),
 			exclusions 	= settings.exclude.join(', '),
+			clickJump	= false,
 			$headings 	= $( settings.scope ).find( allHeadings ).not( exclusions );
 
 
-
-
-
 		// set optional title element first before list starts
-
 		if( settings.title.length >= 1) {
 			taocoNav = '<h2>' + settings.title + '</h2>';
 		}
 
 
-
-
-
 		// create the nav list
-
 		$headings.each( function() {
 
 			var item 		= $(this),
@@ -96,7 +79,8 @@
 				listClass = ' class="taoco-list"';
 			}
 
-			
+			item.addClass('item-' + counter);
+
 			// create and set id if it's 'undefined' on this item
 			if(typeof(id)  === 'undefined') {
 				id = label.replace(/[^a-zA-Z0-9]/g,'-').replace('---','-').replace('--','-');
@@ -137,33 +121,29 @@
 
 			// Build the text for this item in the table of contents
 			// and leave the list item open
-			taocoNav += '<li><a href="#' + id + '">' + label + '</a>';
+			taocoNav += '<li class="list-item-' + counter + '"><a href="#' + id + '">' + label + '</a>';
+
+			counter++;
 
 		});
 
 
-
-
-
-
 		// prepend the taoco list to container
-
 		el.addClass('taoco').attr('role', 'navigation').prepend($(taocoNav));
 
 
-
-
-
 		// enable smooth scrolling if enabled
-
 		if( settings.smoothScroll ) {
 
 			el.on('click', 'a', function(e) {
 				var target = $(this.hash);
+				clickJump = true;
 
 				$('html, body').animate( {
 					scrollTop: target.offset().top
-				}, settings.smoothScrollDuration);
+				}, settings.smoothScrollDuration, function() {
+					clickJump = false;
+				});
 
 				return false;
 			});
@@ -171,11 +151,7 @@
 		}
 
 
-
-
-
 		// handle highlighting of active list-item at scrolling if enabled
-
 		if( settings.highlight ) {
 
 			var userScrolled = false;
@@ -185,21 +161,18 @@
 			});
 
 			setInterval(function() {
-			  if (userScrolled) {
-
-			  	console.log('check first visible item');
+			  if (userScrolled && !clickJump) {
 
 				var scrollTop = $(window).scrollTop();
-				var windowHeight = $(window).height();		
+				var windowHeight = $(window).height();
 
-				$headings.removeClass("is-visible").each( function() {
+				$headings.each( function() {
 					var offset = $(this).offset();
-					if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
-						$(this).addClass("is-visible");
+					if ((scrollTop - settings.headingOffset) <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+						setActive( $(this).attr('class').slice(-1) );
 						return false;
 					}
 				});
-
 
 			    userScrolled = false;
 			  }
@@ -207,6 +180,12 @@
 
 		}
 
+
+		// function to set 'active' to  selected nav item
+		function setActive(n) {
+			$('.taoco-list li').removeClass('active');
+			$('.taoco-list li.list-item-' + n).addClass('active');
+		}
 
 
 	};

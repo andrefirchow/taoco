@@ -1,25 +1,46 @@
 
 .taoco {
 	position: fixed;
-	background: #fff;
+	background: rgba(255,255,255,0.85);
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	top: 1em;
 	right: 1em;
 	padding: 1em;
+	width: 200px;
 }
 
-.taoco-list,
-.taoco-list ul {
-	margin: 0;
+
+.taoco-list {
+	margin: 0 -1em;
 	padding: 0;
 	list-style-type: none;
 }
 
-.taoco-list li li {
-	margin-left: 1em;
+.taoco-list ul {
+	margin: 0;
+	padding-left: .5em;
+	list-style-type: none;
 }
 
-.is-visible {
-	background: lime;
+
+.taoco-list > li > a {
+	font-weight: 700;
+}
+
+.taoco-list a {
+	text-decoration: none;
+	display: block;
+	color: #4682B4;
+	padding: .3em 1em;
+
+	 -webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
+}
+
+.taoco-list li.active > a {
+	background: #4682B4;
+	color: #fff;
 }
