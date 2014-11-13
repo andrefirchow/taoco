@@ -1,0 +1,25 @@
+
+.taoco {
+	position: fixed;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	top: 1em;
+	right: 1em;
+	padding: 1em;
+}
+
+.taoco-list,
+.taoco-list ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.taoco-list li li {
+	margin-left: 1em;
+}
+
+.is-visible {
+	background: lime;
+}
