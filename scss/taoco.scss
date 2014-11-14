@@ -1,0 +1,81 @@
+
+$link-color: #4682B4;
+$active-color: #DC143C;
+
+
+// container and general styles
+
+.taoco {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1em;
+
+    &.taoco-fixed {
+        position: fixed;
+        background: rgba(255,255,255,0.85);
+        top: 1em;
+        right: 1em;
+        width: 200px;
+    }
+
+    li {
+        margin: .5em 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: $link-color;
+
+         -webkit-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        transition: all .3s ease-in-out;
+
+        &:hover {
+            color: darken($link-color, 15%);   
+        }
+
+    }
+
+
+    // ordered list
+
+    ol {
+        counter-reset: item;
+    }
+
+        ol li:before {
+            color: $link-color;
+            content: counters(item, ".") " ";
+            counter-increment: item;
+        }
+
+}
+
+
+// the list
+
+.taoco-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    ul,
+    ol {
+        margin: 0;
+        padding-left: .5em;
+        font-size: .9em;
+        list-style-position: inside;
+        list-style-type: none;
+    }
+
+    > li > a,
+    > li:before {
+        font-weight: 700;
+    }
+
+    li.active > a {
+        color: $active-color;
+    }
+
+}
