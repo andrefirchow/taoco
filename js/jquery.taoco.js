@@ -12,7 +12,16 @@
 	$.fn.taoco = function( options ) {
 
 
-		// the defaults
+		// get/set ID to the container to use taoco
+		// independently and multiple times per page
+		var containerID = this.attr('id');
+		if(typeof(containerID)  === 'undefined') {
+			containerID = Math.floor(Math.random() * 10000000000000001);
+			this.attr('id', containerID);
+		}
+
+
+		// set the defaults settings
 		var settings = $.extend( {
 			debug					: false,
 			scope					: 'body',
@@ -24,7 +33,7 @@
 			smoothScroll 			: true,
 			smoothScrollDuration	: 500,
 			headingOffset			: 50,
-			addNumbers				: false
+			additionalClass			: '' // add an additional class to the nav container
 		}, options );
 
 
@@ -41,7 +50,7 @@
 			console.log('highlight = ' + settings.highlight);
 			console.log('smoothScroll = ' + settings.smoothScroll);
 			console.log('smoothScrollDuration = ' + settings.smoothScrollDuration);
-			console.log('addNumbers = ' + settings.addNumbers);
+			console.log('additionalClass = ' + settings.additionalClass);
 			console.log('------------------');
 		}
 
@@ -129,7 +138,7 @@
 
 
 		// prepend the taoco list to container
-		el.addClass('taoco').attr('role', 'navigation').prepend($(taocoNav));
+		el.addClass('taoco ' + settings.additionalClass).attr('role', 'navigation').prepend($(taocoNav));
 
 
 		// enable smooth scrolling if enabled
@@ -182,10 +191,11 @@
 
 
 		// function to set 'active' to  selected nav item
-		function setActive(n) {
-			$('.taoco-list li').removeClass('active');
-			$('.taoco-list li.list-item-' + n).addClass('active');
+		function setActive(num) {
+			$('#' + containerID + ' .taoco-list li').removeClass('active');
+			$('#' + containerID + ' .taoco-list li.list-item-' + num).addClass('active');
 		}
+
 
 
 	};
