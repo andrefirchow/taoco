@@ -64,7 +64,7 @@
             counter     = 0,        // the list
             allHeadings = settings.headings.join(', '),
             exclusions  = settings.exclude.join(', '),
-            clickJump   = false,
+            // clickJump   = false,
             $headings   = $( settings.scope ).find( allHeadings ).not( exclusions );
 
 
@@ -81,12 +81,7 @@
                 label       = item.text();
                 tag         = this.tagName,
                 level       = tag.substr(1, 1),
-                id          = item.attr('id'),
-                listClass   = '';
-
-            if(depth === null) {
-                listClass = ' class="taoco-list"';
-            }
+                id          = item.attr('id');
 
             item.addClass('item-' + counter);
 
@@ -96,7 +91,6 @@
                 item.attr('id', id);
             }
 
-
             // close list and item(s) when difference is more than one level
             if((depth - level) > 1) {
                 for ( var i = 1; i < (depth - level); i++ ) {
@@ -104,12 +98,10 @@
                 }
             }
 
-
             // open list element
             if (depth < level) {
-                taocoNav += "<" + settings.listType + listClass + ">";
+                taocoNav += "<" + settings.listType + ">";
             }
-
 
             // If the current depth is greater than the heading
             // level, close the list that was previously opened
@@ -117,16 +109,13 @@
                 taocoNav += "</" + settings.listType + "></li>";
             }
 
-
             // close the list item if the current depth equals the heading level,
             else if (depth == level) {
                 taocoNav += "</li>";
             }
 
-
             // Set the current depth equal to this heading level
             depth = level;
-
 
             // Build the text for this item in the table of contents
             // and leave the list item open
@@ -146,13 +135,10 @@
 
             el.on('click', 'a', function(e) {
                 var target = $(this.hash);
-                clickJump = true;
 
                 $('html, body').animate( {
                     scrollTop: target.offset().top
-                }, settings.smoothScrollDuration, function() {
-                    clickJump = false;
-                });
+                }, settings.smoothScrollDuration );
 
                 return false;
             });
@@ -170,14 +156,14 @@
             });
 
             setInterval(function() {
-              if (userScrolled && !clickJump) {
+              if ( userScrolled ) {
 
                 var scrollTop = $(window).scrollTop();
                 var windowHeight = $(window).height();
 
                 $headings.each( function() {
                     var offset = $(this).offset();
-                    if ((scrollTop - settings.headingOffset) <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+                    if ( (scrollTop - settings.headingOffset) <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight) ) {
                         setActive( $(this).attr('class').slice(-1) );
                         return false;
                     }
@@ -192,10 +178,10 @@
 
         // function to set 'active' to  selected nav item
         function setActive(num) {
-            $('#' + containerID + ' .taoco-list li').removeClass('active');
-            $('#' + containerID + ' .taoco-list li.list-item-' + num).addClass('active');
+            console.log('setActive(' + num + ')');
+            $('#' + containerID + ' li').removeClass('active');
+            $('#' + containerID + ' li.list-item-' + num).addClass('active');
         }
-
 
 
     };

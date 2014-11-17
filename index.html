@@ -71,6 +71,10 @@
 
             </article><!-- /content -->
 
+            <footer class="page-footer">
+                <small>&copy; Andre Firchow</small>
+            </footer>
+
         </div>
 
 
@@ -86,9 +90,9 @@
                     scope: '.content',
                     headings: ['h1','h2','h3','h4'],
                     smoothScroll: true,
-                    listType: 'ol',
+                    listType: 'ul',
                     additionalClass: 'taoco-fixed',
-                    title: 'taoco right (ol)' // just leave it blank to disable the title
+                    title: 'Fixed' // just leave it blank to disable the title
                 });
 
                 $( '#taoco-left' ).taoco({
@@ -96,7 +100,7 @@
                     scope: '.content',
                     headings: ['h1','h2','h3','h4'],
                     smoothScroll: true,
-                    listType: 'ul',
+                    listType: 'ol',
                     additionalClass: 'taoco-fixed',
                     title: 'taoco left (ul)' // just leave it blank to disable the title
                 });
@@ -108,7 +112,7 @@
                     smoothScroll: false,
                     listType: 'ul',
                     highlight: false,
-                    title: '' // just leave it blank to disable the title
+                    title: 'Default' // just leave it blank to disable the title
                 });
 
             });

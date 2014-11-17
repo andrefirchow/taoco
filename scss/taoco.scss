@@ -1,6 +1,9 @@
 
 $link-color: #4682B4;
-$active-color: #DC143C;
+$active-link-color: #fff;
+$active-bg-color: #DC143C;
+
+$space-unit: 10px;
 
 
 // container and general styles
@@ -8,34 +11,21 @@ $active-color: #DC143C;
 .taoco {
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 1em;
+    padding: 0;
 
-    &.taoco-fixed {
-        position: fixed;
-        background: rgba(255,255,255,0.85);
-        top: 1em;
-        right: 1em;
-        width: 200px;
+    ul,
+    ol {
+        margin: 0;
+        padding: 0;
+        font-size: .9em;
+        list-style-position: inside;
+        list-style-type: none;
     }
 
-    li {
-        margin: .5em 0;
+    h2 {
+        margin: $space-unit;
     }
 
-    a {
-        text-decoration: none;
-        color: $link-color;
-
-         -webkit-transition: all .3s ease-in-out;
-        -moz-transition: all .3s ease-in-out;
-        -o-transition: all .3s ease-in-out;
-        transition: all .3s ease-in-out;
-
-        &:hover {
-            color: darken($link-color, 15%);   
-        }
-
-    }
 
 
     // ordered list
@@ -50,32 +40,50 @@ $active-color: #DC143C;
             counter-increment: item;
         }
 
-}
 
+    a {
+        display: block;
+        padding: $space-unit;
+        text-decoration: none;
+        color: $link-color;
 
-// the list
+         -webkit-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        transition: all .3s ease-in-out;
 
-.taoco-list {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+        &:hover {
+            color: darken($link-color, 15%);
+            background: #f5f5f5;
+        }
 
-    ul,
-    ol {
-        margin: 0;
-        padding-left: .5em;
-        font-size: .9em;
-        list-style-position: inside;
-        list-style-type: none;
     }
 
-    > li > a,
-    > li:before {
-        font-weight: 700;
-    }
+    li li a { padding-left: $space-unit * 2; }
+    li li li a { padding-left: $space-unit * 3; }
+    li li li li a { padding-left: $space-unit * 4; }
 
     li.active > a {
-        color: $active-color;
+        background: $active-bg-color;
+        color: $active-link-color;
+    }
+
+
+
+    // fixed navigation
+
+    &.taoco-fixed {
+        position: fixed;
+        background: rgba(255,255,255,0.85);
+        top: 1em;
+        right: 1em;
+        width: 200px;
+
+        a {
+            padding-top: ($space-unit / 2);
+            padding-bottom: ($space-unit / 2);
+        }
+
     }
 
 }
